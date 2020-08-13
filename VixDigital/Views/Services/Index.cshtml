@@ -1,0 +1,61 @@
+﻿@model VixDigital.ViewModel.ServicesViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Services</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Service Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Services) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |                
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<h1>Latest Services Status</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Service</th>
+            <th>Status</th>
+            <th>Last Updated</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model.ServiceResponse)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Service)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastUpdated)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
