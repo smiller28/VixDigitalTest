@@ -173,3 +173,10 @@ CREATE TABLE [dbo].[ServiceResponse](
 GO
 
 Will need to amend ConnectionString located in appsettings.json to match details of your own SQL Server.
+
+Nuget Packages Installed:
+Microsoft.EntityFrameworkCore
+Microsoft.EntityFrameworkCore.Sqlite
+Microsoft.EntityFrameworkCore.SqlServer
+Microsoft.EntityFrameworkCore.Tools
+Microsoft.VisualStudio.Web.CodeGeneration.Design
