@@ -25,10 +25,15 @@ namespace VixDigital.Views.Polling
 
         // GET: Services
         public async Task<IActionResult> Index()
-        {            
+        {
+            GetServices();
+
             var servicesVM = new ServicesViewModel();
             servicesVM.Services = await _context.Services.ToListAsync();
-            servicesVM.ServiceResponse = await _context.ServiceResponse.ToListAsync();
+            var responseList = await _context.ServiceResponse.ToListAsync();
+            
+
+            servicesVM.ServiceResponse = responseList.GroupBy(s => s.Service).SelectMany(g => g.Where(x => x.LastUpdated == g.Max(d => d.LastUpdated))).ToList();
            
             return View(servicesVM);
         }
@@ -156,16 +161,24 @@ namespace VixDigital.Views.Polling
 
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-            serviceResponse.Service = url;
-            serviceResponse.Status = response.StatusDescription;
-            serviceResponse.Server = response.Server;
-            serviceResponse.MethodType = response.Method;
-            serviceResponse.ContentType = response.ContentType;
-            serviceResponse.ServiceLastModified = response.LastModified;
-            serviceResponse.LastUpdated = DateTime.Now;
+            if(response.StatusDescription == "OK")
+            {
+                serviceResponse.Service = url;
+                serviceResponse.Status = response.StatusDescription;
+                serviceResponse.Server = response.Server.ToString();
+                serviceResponse.MethodType = response.Method;
+                serviceResponse.ContentType = response.ContentType;
+                serviceResponse.ServiceLastModified = response.LastModified;
+                serviceResponse.LastUpdated = DateTime.Now;
 
-            _context.ServiceResponse.Add(serviceResponse);
-            _context.SaveChanges();                    
+                _context.ServiceResponse.Add(serviceResponse);
+                _context.SaveChanges();
+            } else
+            {
+                Console.WriteLine(response.StatusCode + " - " + response.StatusDescription);
+            }
+                           
         }
+        
     }
 }

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Services</h1>
+<h1>Services - <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create","Services")'">Add Service</button></h1>
 
 <table class="table">
     <thead>
@@ -29,31 +29,43 @@
 }
     </tbody>
 </table>
-<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create","Services")'">Add Service</button>
 
+<br />
 <h1>Latest Services Status</h1>
 <table class="table">
     <thead>
         <tr>
             <th>Service</th>
             <th>Status</th>
+            <th>Server</th>
+            <th>Method Type</th>
+            <th>Service Last Modified</th>
             <th>Last Updated</th>
         </tr>
     </thead>
     <tbody>
         @foreach(var item in Model.ServiceResponse)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Service)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastUpdated)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Service)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Server)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MethodType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceLastModified)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastUpdated)
+            </td>
+        </tr>
         }
     </tbody>
 </table>
